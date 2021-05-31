@@ -45,7 +45,7 @@
                             <h2>網站簡介</h2>
                         </header>
                         <p>我是簡介文字</p>
-<!--
+                        <!--
                         <ul class="actions">
                             <li><a href="generic.html" class="button ">繼續看下去</a></li>
                         </ul>
@@ -65,30 +65,6 @@
                     </code></pre>
                 </section>
 
-                <!--
-								<ul class="features">
-									<li>
-										<span class="icon solid major style1 fa-code"></span>
-										<h3>Ipsum consequat</h3>
-										<p>Sed lorem amet ipsum dolor et amet nullam consequat a feugiat consequat tempus veroeros sed consequat.</p>
-									</li>
-									<li>
-										<span class="icon major style3 fa-copy"></span>
-										<h3>Amed sed feugiat</h3>
-										<p>Sed lorem amet ipsum dolor et amet nullam consequat a feugiat consequat tempus veroeros sed consequat.</p>
-									</li>
-									<li>
-										<span class="icon major style5 fa-gem"></span>
-										<h3>Dolor nullam</h3>
-										<p>Sed lorem amet ipsum dolor et amet nullam consequat a feugiat consequat tempus veroeros sed consequat.</p>
-									</li>
-								</ul>
-								<footer class="major">
-									<ul class="actions special">
-										<li><a href="generic.html" class="button">Learn More</a></li>
-									</ul>
-								</footer>
--->
             </section>
 
             <!-- Second Section -->
@@ -97,7 +73,7 @@
                     <h2>熱點地圖</h2>
                     <p>年度最高地點與變化</p>
                 </header>
-                                <section>
+                <section>
                     <pre><code>這是一個空格框框
                     </code></pre>
                 </section>
@@ -105,27 +81,149 @@
                 <ul class="statistics">
                     <li class="style1">
                         <span class="icon solid fa-signal"></span>
-                        <strong>5,120</strong> 住宅竊盜
+                        <strong>
+                        <?php
+                            $DB_NAME = "final"; // 資料庫名稱
+                            $DB_USER = "user1"; // 資料庫管理帳號
+                            $DB_PASS = "test123"; // 資料庫管理密碼
+                            $DB_HOST = "localhost"; // 資料庫位址
+
+                            // 連接 MySQL 資料庫伺服器
+                            $con = mysqli_connect($DB_HOST, $DB_USER, $DB_PASS);
+                            if (empty($con)) {
+                                print mysqli_error($con);
+                                die("資料庫連接失敗！");
+                                exit;
+                            }
+
+                            // 選取資料庫
+                            if (!mysqli_select_db($con, $DB_NAME)) {
+                                die("選取資料庫失敗！");
+                            } else {
+                                // echo "連接 " . $DB_NAME . " 資料庫成功！<br>";
+                            }
+
+                            // 設定連線編碼
+                            mysqli_query($con, "SET NAMES 'UTF-8'");
+
+                            // 取得資料
+                            $sql = "SELECT * FROM house_steal";
+                            $result = mysqli_query($con, $sql);
+
+                            // 獲得資料筆數
+                            if ($result) {
+                                $num = mysqli_num_rows($result);
+                                // echo "condb 資料表有 " . $num . " 筆資料<br>";
+                                echo $num;
+                            }
+
+                            
+                            ?>
+                        
+                        </strong> 住宅竊盜
                     </li>
                     <li class="style2">
                         <span class="icon solid fa-signal"></span>
-                        <strong>8,192</strong> 汽車竊盜
+                        <strong>
+                        <?php
+
+                            // 取得資料
+                            $sql = "SELECT * FROM car_steal";
+                            $result = mysqli_query($con, $sql);
+
+                            // 獲得資料筆數
+                            if ($result) {
+                                $num = mysqli_num_rows($result);
+                                // echo "condb 資料表有 " . $num . " 筆資料<br>";
+                                echo $num;
+                            }
+
+                            
+                            ?>
+
+                        
+                        </strong> 汽車竊盜
                     </li>
                     <li class="style3">
                         <span class="icon solid fa-signal"></span>
-                        <strong>2,048</strong> 自行車竊盜
+                        <strong>
+                        <?php
+
+                            // 取得資料
+                            $sql = "SELECT * FROM bike_steal";
+                            $result = mysqli_query($con, $sql);
+
+                            // 獲得資料筆數
+                            if ($result) {
+                                $num = mysqli_num_rows($result);
+                                // echo "condb 資料表有 " . $num . " 筆資料<br>";
+                                echo $num;
+                            }
+                            
+                            ?>                        
+                        </strong> 自行車竊盜
                     </li>
                     <li class="style4">
                         <span class="icon solid fa-signal"></span>
-                        <strong>4,096</strong> 機車竊盜
+                        <strong>
+                        <?php
+
+                            // 取得資料
+                            $sql = "SELECT * FROM motorcycle_steal";
+                            $result = mysqli_query($con, $sql);
+
+                            // 獲得資料筆數
+                            if ($result) {
+                                $num = mysqli_num_rows($result);
+                                // echo "condb 資料表有 " . $num . " 筆資料<br>";
+                                echo $num;
+                            }
+
+                            
+                            ?>    
+                        </strong> 機車竊盜
                     </li>
                     <li class="style5">
                         <span class="icon solid fa-signal"></span>
-                        <strong>1,024</strong> 搶奪
+                        <strong>
+                        <?php
+
+                            // 取得資料
+                            $sql = "SELECT * FROM random_snatch";
+                            $result = mysqli_query($con, $sql);
+
+                            // 獲得資料筆數
+                            if ($result) {
+                                $num = mysqli_num_rows($result);
+                                // echo "condb 資料表有 " . $num . " 筆資料<br>";
+                                echo $num;
+                            }
+
+                            
+                            ?>    
+
+                        
+                        </strong> 搶奪
                     </li>
                     <li class="style1">
                         <span class="icon solid fa-signal"></span>
-                        <strong>20</strong> 強盜
+                        <strong>
+                        <?php
+                            // 取得資料
+                            $sql = "SELECT * FROM random_rob";
+                            $result = mysqli_query($con, $sql);
+
+                            // 獲得資料筆數
+                            if ($result) {
+                                $num = mysqli_num_rows($result);
+                                // echo "condb 資料表有 " . $num . " 筆資料<br>";
+                                echo $num;
+                            }
+
+                            
+                            ?>    
+
+                        </strong> 強盜
                     </li>
                 </ul>
             </section>
@@ -153,11 +251,11 @@
                             </div>
                             <div class="col-6 col-12-xsmall">
                                 <p>發生日期</p>
-                                <input type="date" name="demo-name" id="demo-date" value="" placeholder="Name" />
+                                <input type="date" name="date" id="date" value="" placeholder="Name" />
                             </div>
                             <div class="col-3">
                                 <p>起始時段</p>
-                                <select name="demo-category" id="demo-category">
+                                <select name="start_time" id="start_time">
                                     <option value="">- 起始時段 -</option>
                                     <option value="0">00</option>
                                     <option value="1">01</option>
@@ -185,10 +283,10 @@
                                     <option value="23">23</option>
                                 </select>
                             </div>
-                            
+
                             <div class="col-3">
                                 <p>結束時段</p>
-                                <select name="demo-category" id="demo-category">
+                                <select name="end_time" id="end_time">
                                     <option value="">- 結束時段 -</option>
                                     <option value="0">00</option>
                                     <option value="1">01</option>
@@ -220,7 +318,7 @@
                             <div class="col-12">
                                 <ul class="actions">
                                     <li><input type="submit" value="送出" class="primary" /></li>
-                                    <!--														<li><input type="reset" value="Reset" /></li>-->
+                                    <li><input type="reset" value="刷新" /></li>
                                 </ul>
                             </div>
                         </div>
@@ -236,12 +334,12 @@
         <footer id="footer">
             <section>
                 <h2>結束了</h2>
-                <p>OAO</p>
+                <p>0531-0317</p>
             </section>
             <section>
                 <h2>相關資訊</h2>
                 <ul class="icons">
-                    <li><a href="#" class="icon brands fa-github alt"><span class="label">GitHub</span></a></li>
+                    <li><a target="_blank" href="https://github.com/psychicalcoder/DBMS-2021-Project" class="icon brands fa-github alt"><span class="label">GitHub</span></a></li>
                 </ul>
             </section>
         </footer>
