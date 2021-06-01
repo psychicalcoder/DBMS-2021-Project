@@ -1,9 +1,10 @@
 <!DOCTYPE HTML>
 
-<html>
+<html lang="zh-Hant-TW">
 
 <head>
-    <title>台北市安全防護網</title>
+    <title>台北市安全防護網 | 首頁</title>
+    <link rel="Shortcut Icon" type="image/x-icon" href="images/taipei-101.png" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="assets/css/main.css" />
@@ -19,7 +20,7 @@
 
         <!-- Header -->
         <header id="header" class="alt">
-            <span class="logo"><img src="images/logo.svg" alt="" /></span>
+            <span class="logo"><img src="images/taipei-101.png" alt="" /></span>
             <h1>台北市安全防護網</h1>
             <p>打造健全環境，讓你遠離犯罪熱點</p>
         </header>
@@ -27,10 +28,10 @@
         <!-- Nav -->
         <nav id="nav">
             <ul>
-                <li><a href="#intro" class="active">網站簡介</a></li>
-                <li><a href="#first">偵測熱點</a></li>
+                <li><a href="./" class="active">網站簡介</a></li>
+<!--                <li><a href="#first">偵測熱點</a></li>-->
                 <li><a href="#second">熱點地圖</a></li>
-                <li><a href="#form">新增犯罪熱點</a></li>
+                <li><a href="./add.php">新增犯罪熱點</a></li>
             </ul>
         </nav>
 
@@ -44,18 +45,19 @@
                         <header class="major">
                             <h2>網站簡介</h2>
                         </header>
-                        <p>我是簡介文字</p>
+                        <p>本網站結合了臺北市政府警察局刑事警察大隊所提供的公開資料。包含機車竊盜、住宅竊盜、街頭隨機搶奪案件事發地點資料，搭配Google地圖，讓使用者可以評估自身所屬地點是否安全，繼而保護使用者。</p>
                         <!--
                         <ul class="actions">
                             <li><a href="generic.html" class="button ">繼續看下去</a></li>
                         </ul>
 -->
                     </div>
-                    <span class="image"><img src="images/pic01.jpg" alt="" /></span>
+                    <span class="image"><img src="images/globe.png" alt="" /></span>
                 </div>
             </section>
 
             <!-- First Section -->
+<!--
             <section id="first" class="main special">
                 <header class="major">
                     <h2>偵測熱點</h2>
@@ -66,6 +68,7 @@
                 </section>
 
             </section>
+-->
 
             <!-- Second Section -->
             <section id="second" class="main special">
@@ -144,7 +147,7 @@
                         
                         </strong> 汽車竊盜
                     </li>
-                    <li class="style3">
+                    <li class="style1">
                         <span class="icon solid fa-signal"></span>
                         <strong>
                         <?php
@@ -163,7 +166,7 @@
                             ?>                        
                         </strong> 自行車竊盜
                     </li>
-                    <li class="style4">
+                    <li class="style2">
                         <span class="icon solid fa-signal"></span>
                         <strong>
                         <?php
@@ -183,7 +186,7 @@
                             ?>    
                         </strong> 機車竊盜
                     </li>
-                    <li class="style5">
+                    <li class="style1">
                         <span class="icon solid fa-signal"></span>
                         <strong>
                         <?php
@@ -205,7 +208,7 @@
                         
                         </strong> 搶奪
                     </li>
-                    <li class="style1">
+                    <li class="style2">
                         <span class="icon solid fa-signal"></span>
                         <strong>
                         <?php
@@ -228,113 +231,16 @@
                 </ul>
             </section>
 
-            <!-- Form -->
-            <section id="form" class="main special">
-                <section>
-                    <h2>新增犯罪熱點</h2>
-                    <form method="post" action="test.php">
-                        <div class="row gtr-uniform">
-                            <div class="col-12 col-12-xsmall">
-                                <input type="text" name="addr" id="addr" value="" placeholder="範例：臺北市大安區仁愛路3段1~30號" />
-                            </div>
-                            <div class="col-12">
-                                <p>案件類別</p>
-                                <select name="category" id="category">
-                                    <option value="">- 類別 -</option>
-                                    <option value="1">住宅竊盜</option>
-                                    <option value="2">汽車竊盜</option>
-                                    <option value="3">自行車竊盜</option>
-                                    <option value="4">機車竊盜</option>
-                                    <option value="5">搶奪</option>
-                                    <option value="6">強盜</option>
-                                </select>
-                            </div>
-                            <div class="col-6 col-12-xsmall">
-                                <p>發生日期</p>
-                                <input type="date" name="date" id="date" value="" placeholder="Name" />
-                            </div>
-                            <div class="col-3">
-                                <p>起始時段</p>
-                                <select name="start_time" id="start_time">
-                                    <option value="">- 起始時段 -</option>
-                                    <option value="0">00</option>
-                                    <option value="1">01</option>
-                                    <option value="2">02</option>
-                                    <option value="3">03</option>
-                                    <option value="4">04</option>
-                                    <option value="5">05</option>
-                                    <option value="6">06</option>
-                                    <option value="7">07</option>
-                                    <option value="8">08</option>
-                                    <option value="9">09</option>
-                                    <option value="10">10</option>
-                                    <option value="11">11</option>
-                                    <option value="12">12</option>
-                                    <option value="13">13</option>
-                                    <option value="14">14</option>
-                                    <option value="15">15</option>
-                                    <option value="16">16</option>
-                                    <option value="17">17</option>
-                                    <option value="18">18</option>
-                                    <option value="19">19</option>
-                                    <option value="20">20</option>
-                                    <option value="21">21</option>
-                                    <option value="22">22</option>
-                                    <option value="23">23</option>
-                                </select>
-                            </div>
-
-                            <div class="col-3">
-                                <p>結束時段</p>
-                                <select name="end_time" id="end_time">
-                                    <option value="">- 結束時段 -</option>
-                                    <option value="0">00</option>
-                                    <option value="1">01</option>
-                                    <option value="2">02</option>
-                                    <option value="3">03</option>
-                                    <option value="4">04</option>
-                                    <option value="5">05</option>
-                                    <option value="6">06</option>
-                                    <option value="7">07</option>
-                                    <option value="8">08</option>
-                                    <option value="9">09</option>
-                                    <option value="10">10</option>
-                                    <option value="11">11</option>
-                                    <option value="12">12</option>
-                                    <option value="13">13</option>
-                                    <option value="14">14</option>
-                                    <option value="15">15</option>
-                                    <option value="16">16</option>
-                                    <option value="17">17</option>
-                                    <option value="18">18</option>
-                                    <option value="19">19</option>
-                                    <option value="20">20</option>
-                                    <option value="21">21</option>
-                                    <option value="22">22</option>
-                                    <option value="23">23</option>
-                                </select>
-                            </div>
-
-                            <div class="col-12">
-                                <ul class="actions">
-                                    <li><input type="submit" value="送出" class="primary" /></li>
-                                    <li><input type="reset" value="刷新" /></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </form>
-                </section>
-            </section>
-
-
 
         </div>
 
         <!-- Footer -->
         <footer id="footer">
             <section>
-                <h2>結束了</h2>
-                <p>0531-0317</p>
+                <h2>參考資料</h2>
+                <p>https://www.flaticon.com/<br>
+                https://html5up.net/
+                </p>
             </section>
             <section>
                 <h2>相關資訊</h2>

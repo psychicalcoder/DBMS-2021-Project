@@ -100,10 +100,10 @@ input, select, textarea {
 
 	body {
 		background-color: #73574D;
-		background-image: url("images/overlay.png"), -moz-linear-gradient(45deg, #BF9278 15%, #73574D 85%);
-		background-image: url("images/overlay.png"), -webkit-linear-gradient(45deg, #BF9278 15%, #73574D 85%);
-		background-image: url("images/overlay.png"), -ms-linear-gradient(45deg, #BF9278 15%, #73574D 85%);
-		background-image: url("images/overlay.png"), linear-gradient(45deg, #BF9278 15%, #73574D 85%);
+		background-image: url("images/overlay.png"), -moz-linear-gradient(45deg, #8B9386 15%, #4D4D3D 85%);
+		background-image: url("images/overlay.png"), -webkit-linear-gradient(45deg, #8B9386 15%, #4D4D3D 85%);
+		background-image: url("images/overlay.png"), -ms-linear-gradient(45deg, #8B9386 15%, #4D4D3D 85%);
+		background-image: url("images/overlay.png"), linear-gradient(45deg, #8B9386 15%, #4D4D3D 85%);
 	}
 
 		body.is-preload *, body.is-preload *:before, body.is-preload *:after {
@@ -2297,10 +2297,12 @@ input, select, textarea {
 
 		.icon.style1 {
 			color: #efa8b0;
+/*            color: #313B2F;*/
 		}
 
 		.icon.style2 {
 			color: #c79cc8;
+/*            color: #6A736F;*/
 		}
 
 		.icon.style3 {
@@ -2889,11 +2891,13 @@ input, select, textarea {
 		}
 
 			.statistics li.style1 {
-				background-color: #efa8b0;
+				background-color: #313B2F;
+/*				background-color: #efa8b0;*/
 			}
 
 			.statistics li.style2 {
-				background-color: #c79cc8;
+				background-color: #6A736F;
+/*				background-color: #c79cc8;*/
 			}
 
 			.statistics li.style3 {
