@@ -213,7 +213,6 @@
                                             echo "連接 " . $DB_NAME . " 資料庫成功！<br>";
                                         }
                                         
-                                        echo "成功";
 
                                         $sql = "SELECT * FROM ".$category;
                                         $result = mysqli_query($con, $sql);
