@@ -17,10 +17,10 @@
 
 
 
-$DB_NAME = "final"; // 資料庫名稱
-$DB_USER = "user1"; // 資料庫管理帳號
-$DB_PASS = "test123"; // 資料庫管理密碼
-$DB_HOST = "localhost"; // 資料庫位址
+$DB_NAME = "final"; 
+$DB_USER = "user1"; 
+$DB_PASS = "test123"; 
+$DB_HOST = "localhost"; 
 
 // 連接 MySQL 資料庫伺服器
 $con = mysqli_connect($DB_HOST, $DB_USER, $DB_PASS);

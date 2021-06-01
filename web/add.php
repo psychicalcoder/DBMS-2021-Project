@@ -28,8 +28,8 @@
         <!-- Nav -->
         <nav id="nav">
             <ul>
-                <li><a href="./" class="active">網站簡介</a></li>
-                <li><a href="./add.php">新增犯罪熱點</a></li>
+                <li><a href="./" >網站簡介</a></li>
+                <li><a href="./add.php" class="active">新增犯罪熱點</a></li>
             </ul>
         </nav>
 
@@ -179,6 +179,10 @@
                                     <!-- <li><input type="reset" value="刷新" /></li> -->
                                 </ul>
                             </div>
+
+                            <blockquote>
+
+
                             <?php
 
                                 if ($_SERVER["REQUEST_METHOD"] == "POST")
@@ -251,7 +255,7 @@
                                 }
 
                             ?>
-
+                            </blockquote>
                         </div>
                     </form>
                 </section>
