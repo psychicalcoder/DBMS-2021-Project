@@ -84,15 +84,15 @@
 
                 <ul class="statistics">
                     <li class="style1">
+                        <a href="javascript:void(0)" onclick="yourfuntion()" style="border-bottom:none">
                         <span class="icon solid fa-signal"></span>
                         <strong>
                         <?php
-                            $DB_NAME = "final"; // 資料庫名稱
-                            $DB_USER = "user1"; // 資料庫管理帳號
-                            $DB_PASS = "test123"; // 資料庫管理密碼
-                            $DB_HOST = "localhost"; // 資料庫位址
+                            $DB_NAME = "final";
+                            $DB_USER = "user1"; 
+                            $DB_PASS = "test123"; 
+                            $DB_HOST = "localhost"; 
 
-                            // 連接 MySQL 資料庫伺服器
                             $con = mysqli_connect($DB_HOST, $DB_USER, $DB_PASS);
                             if (empty($con)) {
                                 print mysqli_error($con);
@@ -100,24 +100,18 @@
                                 exit;
                             }
 
-                            // 選取資料庫
                             if (!mysqli_select_db($con, $DB_NAME)) {
                                 die("選取資料庫失敗！");
                             } else {
-                                // echo "連接 " . $DB_NAME . " 資料庫成功！<br>";
                             }
 
-                            // 設定連線編碼
                             mysqli_query($con, "SET NAMES 'UTF-8'");
 
-                            // 取得資料
                             $sql = "SELECT * FROM house_steal";
                             $result = mysqli_query($con, $sql);
 
-                            // 獲得資料筆數
                             if ($result) {
                                 $num = mysqli_num_rows($result);
-                                // echo "condb 資料表有 " . $num . " 筆資料<br>";
                                 echo $num;
                             }
 
@@ -125,20 +119,19 @@
                             ?>
                         
                         </strong> 住宅竊盜
+                        </a>
                     </li>
                     <li class="style2">
+                        <a href="javascript:void(0)" onclick="yourfuntion()" style="border-bottom:none">
                         <span class="icon solid fa-signal"></span>
                         <strong>
                         <?php
 
-                            // 取得資料
                             $sql = "SELECT * FROM car_steal";
                             $result = mysqli_query($con, $sql);
 
-                            // 獲得資料筆數
                             if ($result) {
                                 $num = mysqli_num_rows($result);
-                                // echo "condb 資料表有 " . $num . " 筆資料<br>";
                                 echo $num;
                             }
 
@@ -147,87 +140,75 @@
 
                         
                         </strong> 汽車竊盜
+                        </a>
                     </li>
                     <li class="style1">
+                        <a href="javascript:void(0)" onclick="yourfuntion()" style="border-bottom:none">
                         <span class="icon solid fa-signal"></span>
                         <strong>
                         <?php
 
-                            // 取得資料
                             $sql = "SELECT * FROM bike_steal";
                             $result = mysqli_query($con, $sql);
-
-                            // 獲得資料筆數
                             if ($result) {
                                 $num = mysqli_num_rows($result);
-                                // echo "condb 資料表有 " . $num . " 筆資料<br>";
                                 echo $num;
                             }
                             
                             ?>                        
                         </strong> 自行車竊盜
+                        </a>
                     </li>
                     <li class="style2">
+                        <a href="javascript:void(0)" onclick="yourfuntion()" style="border-bottom:none">
                         <span class="icon solid fa-signal"></span>
                         <strong>
                         <?php
-
-                            // 取得資料
                             $sql = "SELECT * FROM motorcycle_steal";
                             $result = mysqli_query($con, $sql);
-
-                            // 獲得資料筆數
                             if ($result) {
                                 $num = mysqli_num_rows($result);
-                                // echo "condb 資料表有 " . $num . " 筆資料<br>";
                                 echo $num;
                             }
-
                             
                             ?>    
                         </strong> 機車竊盜
+                        </a>
                     </li>
                     <li class="style1">
+                        <a href="javascript:void(0)" onclick="yourfuntion()" style="border-bottom:none">
                         <span class="icon solid fa-signal"></span>
                         <strong>
                         <?php
 
-                            // 取得資料
                             $sql = "SELECT * FROM random_snatch";
                             $result = mysqli_query($con, $sql);
-
-                            // 獲得資料筆數
                             if ($result) {
                                 $num = mysqli_num_rows($result);
-                                // echo "condb 資料表有 " . $num . " 筆資料<br>";
                                 echo $num;
                             }
-
-                            
+                        
                             ?>    
 
                         
                         </strong> 搶奪
+                        </a>
                     </li>
                     <li class="style2">
+                        <a href="javascript:void(0)" onclick="yourfuntion()" style="border-bottom:none">
                         <span class="icon solid fa-signal"></span>
                         <strong>
                         <?php
-                            // 取得資料
                             $sql = "SELECT * FROM random_rob";
                             $result = mysqli_query($con, $sql);
-
-                            // 獲得資料筆數
                             if ($result) {
                                 $num = mysqli_num_rows($result);
-                                // echo "condb 資料表有 " . $num . " 筆資料<br>";
                                 echo $num;
                             }
-
-                            
                             ?>    
 
                         </strong> 強盜
+                        </a>
                     </li>
                 </ul>
             </section>
