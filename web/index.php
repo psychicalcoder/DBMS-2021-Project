@@ -12,6 +12,70 @@
     <noscript>
         <link rel="stylesheet" href="assets/css/noscript.css" />
     </noscript>
+    <?php
+     function geocode($address) {
+         $address = urlencode($address);
+	 $url = "https://maps.googleapis.com/maps/api/geocode/json?address={$address}&key=AIzaSyApaj14PBOXclTYt8Bg3fIJnkiSiELkMZA&language=zh-TW";
+	 $response_json = file_get_contents($url);
+	 $response = json_decode($response_json, true);
+	 if($response['status'] == 'OK') {
+	     $lat = $response['results'][0]['geometry']['location']['lat'];
+	     $lng = $response['results'][0]['geometry']['location']['lng'];
+	     return array($lat, $lng);
+	 }
+	 else {
+	     return false;
+	 }
+     }
+     ?>
+    <script>
+      var locs = [
+    <?php
+      $DB_NAME = "final";
+      $DB_USER = "user1"; 
+      $DB_PASS = "test123"; 
+      $DB_HOST = "localhost"; 
+      
+      $con = mysqli_connect($DB_HOST, $DB_USER, $DB_PASS);
+      if (empty($con)) {
+          print mysqli_error($con);
+          die("資料庫連接失敗！");
+          exit;
+      }
+      
+      if (!mysqli_select_db($con, $DB_NAME)) {
+          die("選取資料庫失敗！");
+      } else {
+      }
+      mysqli_query($con, "SET NAMES 'UTF-8'");
+      $sql = "SELECT location FROM car_steal limit 15";
+      $result = mysqli_query($con, $sql);
+      
+      if ($result) {
+	  while ($row = mysqli_fetch_assoc($result)) {
+	      //echo "\"{$row['location']}\",";
+	      list($lat, $lng) = geocode($row['location']);
+	      echo " [$lat, $lng], ";
+	  }
+      } else {
+	  die("Something goes wrong!");
+      }
+    ?>
+      ];
+      function initMap() {
+          var map = new google.maps.Map(document.getElementById('map'), {
+              center: new google.maps.LatLng(25.0329694, 121.5654177),
+              zoom: 12
+	  });
+	  Array.prototype.forEach.call(locs, function(mE) {
+	      var marker = new google.maps.Marker({
+		  map: map,
+		  position: new google.maps.LatLng(mE[0],mE[1]),
+	      });
+	  });
+      }
+    </script>
+    <!--- <script src="assets/js/map.js"></script> -->
 </head>
 
 <body class="is-preload">
@@ -78,8 +142,12 @@
                     <p>年度最高地點與變化</p>
                 </header>
                 <section>
+		    <div id="map"></div>
+		    <!-- 
                     <pre><code>這是一個空格框框
                     </code></pre>
+		    -->
+		    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyApaj14PBOXclTYt8Bg3fIJnkiSiELkMZA&callback=initMap&libraries=&v=weekly"></script>
                 </section>
 
                 <ul class="statistics">
@@ -88,25 +156,6 @@
                         <span class="icon solid fa-signal"></span>
                         <strong>
                         <?php
-                            $DB_NAME = "final";
-                            $DB_USER = "user1"; 
-                            $DB_PASS = "test123"; 
-                            $DB_HOST = "localhost"; 
-
-                            $con = mysqli_connect($DB_HOST, $DB_USER, $DB_PASS);
-                            if (empty($con)) {
-                                print mysqli_error($con);
-                                die("資料庫連接失敗！");
-                                exit;
-                            }
-
-                            if (!mysqli_select_db($con, $DB_NAME)) {
-                                die("選取資料庫失敗！");
-                            } else {
-                            }
-
-                            mysqli_query($con, "SET NAMES 'UTF-8'");
-
                             $sql = "SELECT * FROM house_steal";
                             $result = mysqli_query($con, $sql);
 
