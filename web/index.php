@@ -12,24 +12,8 @@
     <noscript>
         <link rel="stylesheet" href="assets/css/noscript.css" />
     </noscript>
-    <?php
-     function geocode($address) {
-         $address = urlencode($address);
-	 $url = "https://maps.googleapis.com/maps/api/geocode/json?address={$address}&key=AIzaSyApaj14PBOXclTYt8Bg3fIJnkiSiELkMZA&language=zh-TW";
-	 $response_json = file_get_contents($url);
-	 $response = json_decode($response_json, true);
-	 if($response['status'] == 'OK') {
-	     $lat = $response['results'][0]['geometry']['location']['lat'];
-	     $lng = $response['results'][0]['geometry']['location']['lng'];
-	     return array($lat, $lng);
-	 }
-	 else {
-	     return false;
-	 }
-     }
-     ?>
     <script>
-      var locs = [
+      var car_steal = [
     <?php
       $DB_NAME = "final";
       $DB_USER = "user1"; 
@@ -47,35 +31,139 @@
           die("選取資料庫失敗！");
       } else {
       }
+
       mysqli_query($con, "SET NAMES 'UTF-8'");
-      $sql = "SELECT location FROM car_steal limit 15";
+      $sql = "SELECT lat,lng FROM car_steal";
       $result = mysqli_query($con, $sql);
       
       if ($result) {
 	  while ($row = mysqli_fetch_assoc($result)) {
-	      //echo "\"{$row['location']}\",";
-	      list($lat, $lng) = geocode($row['location']);
-	      echo " [$lat, $lng], ";
+	      echo " [{$row['lat']}, {$row['lng']}], ";
 	  }
-      } else {
-	  die("Something goes wrong!");
       }
     ?>
       ];
-      function initMap() {
-          var map = new google.maps.Map(document.getElementById('map'), {
-              center: new google.maps.LatLng(25.0329694, 121.5654177),
-              zoom: 12
-	  });
-	  Array.prototype.forEach.call(locs, function(mE) {
-	      var marker = new google.maps.Marker({
-		  map: map,
-		  position: new google.maps.LatLng(mE[0],mE[1]),
-	      });
+
+      var bike_steal = [
+    <?php
+      $sql = "SELECT lat,lng FROM bike_steal";
+      $result = mysqli_query($con, $sql);
+      
+      if ($result) {
+	  while ($row = mysqli_fetch_assoc($result)) {
+	      echo " [{$row['lat']}, {$row['lng']}], ";
+	  }
+      }
+    ?>
+      ];
+
+      var house_steal = [
+    <?php
+      $sql = "SELECT lat,lng FROM house_steal";
+      $result = mysqli_query($con, $sql);
+      
+      if ($result) {
+	  while ($row = mysqli_fetch_assoc($result)) {
+	      echo " [{$row['lat']}, {$row['lng']}], ";
+	  }
+      }
+    ?>
+      ];
+
+      var random_rob = [
+    <?php
+      $sql = "SELECT lat,lng FROM random_rob";
+      $result = mysqli_query($con, $sql);
+      
+      if ($result) {
+	  while ($row = mysqli_fetch_assoc($result)) {
+	      echo " [{$row['lat']}, {$row['lng']}], ";
+	  }
+      }
+    ?>
+      ];
+
+      var random_snatch = [
+    <?php
+      $sql = "SELECT lat,lng FROM random_snatch";
+      $result = mysqli_query($con, $sql);
+      
+      if ($result) {
+	  while ($row = mysqli_fetch_assoc($result)) {
+	      echo " [{$row['lat']}, {$row['lng']}], ";
+	  }
+      }
+    ?>
+      ];
+
+      var motorcycle_steal = [
+    <?php
+      $sql = "SELECT lat,lng FROM motorcycle_steal";
+      $result = mysqli_query($con, $sql);
+      
+      if ($result) {
+	  while ($row = mysqli_fetch_assoc($result)) {
+	      echo " [{$row['lat']}, {$row['lng']}], ";
+	  }
+      }
+    ?>
+      ];
+
+      function genMap(elm_id) {
+	  console.log(elm_id);
+	  return new google.maps.Map(document.getElementById(elm_id), {
+	      center: new google.maps.LatLng(25.071649, 121.548307),
+	      //center: new google.maps.LatLng(25.0329694, 121.5654177),
+	      zoom: 12
 	  });
       }
+
+      function genMarker(mapitem, pos) {
+	  return new google.maps.Marker({
+	      map: mapitem,
+	      position: new google.maps.LatLng(pos[0],pos[1]),
+	      icon: 'images/reddot.png',
+	  });
+      }
+      
+      function initMap() {
+          var car_steal_map = genMap('car_steal_map');
+	  var bike_steal_map = genMap('bike_steal_map');
+	  var random_rob_map = genMap('random_rob_map');
+	  var random_snatch_map = genMap('random_snatch_map');
+	  var house_steal_map = genMap('house_steal_map');
+	  var motorcycle_steal_map = genMap('motorcycle_steal_map');
+	  
+	  Array.prototype.forEach.call(car_steal, function(mE) {
+	      var marker = genMarker(car_steal_map, mE);
+	  });
+	  Array.prototype.forEach.call(bike_steal, function(mE) {
+	      var marker = genMarker(bike_steal_map, mE);
+	  });
+	  Array.prototype.forEach.call(random_rob, function(mE) {
+	      var marker = genMarker(random_rob_map, mE);
+	  });
+	  Array.prototype.forEach.call(random_snatch, function(mE) {
+	      var marker = genMarker(random_snatch_map, mE);
+	  });
+	  Array.prototype.forEach.call(house_steal, function(mE) {
+	      var marker = genMarker(house_steal_map, mE);
+	  });
+	  Array.prototype.forEach.call(motorcycle_steal, function(mE) {
+	      var marker = genMarker(motorcycle_steal_map, mE);
+	  });
+      }
+
+      function setmapvisible(elmid) {
+	  var elms = document.getElementsByClassName("map");
+	  var i;
+	  for (i = 0; i < elms.length; i++) {
+	      elms[i].style.display = "none";
+	  }
+	  var elm = document.getElementById(elmid);
+	  elm.style.display = "block";
+      }
     </script>
-    <!--- <script src="assets/js/map.js"></script> -->
 </head>
 
 <body class="is-preload">
@@ -142,7 +230,12 @@
                     <p>年度最高地點與變化</p>
                 </header>
                 <section>
-		    <div id="map"></div>
+		  <div style="display: block" class="map" id="house_steal_map"></div>
+		  <div style="display: none" class="map" id="car_steal_map"></div>
+		  <div style="display: none" class="map" id="bike_steal_map"></div>
+		  <div style="display: none" class="map" id="motorcycle_steal_map"></div>
+		  <div style="display: none" class="map" id="random_snatch_map"></div>
+		  <div style="display: none" class="map" id="random_rob_map"></div>
 		    <!-- 
                     <pre><code>這是一個空格框框
                     </code></pre>
@@ -152,7 +245,7 @@
 
                 <ul class="statistics">
                     <li class="style1">
-                        <a href="javascript:void(0)" onclick="yourfuntion()" style="border-bottom:none">
+                        <a href="javascript:void(0)" onclick="setmapvisible('house_steal_map')" style="border-bottom:none">
                         <span class="icon solid fa-signal"></span>
                         <strong>
                         <?php
@@ -171,7 +264,7 @@
                         </a>
                     </li>
                     <li class="style2">
-                        <a href="javascript:void(0)" onclick="yourfuntion()" style="border-bottom:none">
+                        <a href="javascript:void(0)" onclick="setmapvisible('car_steal_map')" style="border-bottom:none">
                         <span class="icon solid fa-signal"></span>
                         <strong>
                         <?php
@@ -192,7 +285,7 @@
                         </a>
                     </li>
                     <li class="style1">
-                        <a href="javascript:void(0)" onclick="yourfuntion()" style="border-bottom:none">
+                        <a href="javascript:void(0)" onclick="setmapvisible('bike_steal_map')" style="border-bottom:none">
                         <span class="icon solid fa-signal"></span>
                         <strong>
                         <?php
@@ -209,7 +302,7 @@
                         </a>
                     </li>
                     <li class="style2">
-                        <a href="javascript:void(0)" onclick="yourfuntion()" style="border-bottom:none">
+                        <a href="javascript:void(0)" onclick="setmapvisible('motorcycle_steal_map')" style="border-bottom:none">
                         <span class="icon solid fa-signal"></span>
                         <strong>
                         <?php
@@ -225,7 +318,7 @@
                         </a>
                     </li>
                     <li class="style1">
-                        <a href="javascript:void(0)" onclick="yourfuntion()" style="border-bottom:none">
+                        <a href="javascript:void(0)" onclick="setmapvisible('random_snatch_map')" style="border-bottom:none">
                         <span class="icon solid fa-signal"></span>
                         <strong>
                         <?php
@@ -244,7 +337,7 @@
                         </a>
                     </li>
                     <li class="style2">
-                        <a href="javascript:void(0)" onclick="yourfuntion()" style="border-bottom:none">
+                        <a href="javascript:void(0)" onclick="setmapvisible('random_rob_map')" style="border-bottom:none">
                         <span class="icon solid fa-signal"></span>
                         <strong>
                         <?php
