@@ -25,11 +25,15 @@
             <p>打造健全環境，讓你遠離犯罪熱點</p>
         </header>
 
-        <!-- Nav -->
+        <!-- Head -->
         <nav id="nav">
             <ul>
-                <li><a href="./" >網站簡介</a></li>
+                <li><a href="./#intro">網站簡介</a></li>
+                <li><a href="./#new">最新消息</a></li>
+                <li><a href="./#second">熱點地圖</a></li>
                 <li><a href="./add.php" class="active">新增犯罪熱點</a></li>
+                <li><a href="./menu.php">熱點目錄</a></li>
+                <li><a href="./district.php" >分區查詢</a></li>
             </ul>
         </nav>
 
@@ -38,46 +42,50 @@
 
             <!-- Form -->
 
-
             <?php
             $addr = $category = $date = $start_time = $end_time = "";
-            $addrErr = $categoryErr = $dateErr = $start_timeErr = $end_timeErr = "";
-            
-            if ($_SERVER["REQUEST_METHOD"] == "POST")
-            {
+            $geoErr = $addrErr = $categoryErr = $dateErr = $start_timeErr = $end_timeErr = "";
+
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if (empty($_POST["addr"])) {
                     $addrErr = "缺少地址　|　";
-                } 
-                else {
+                } else {
                     $addr = test_input($_POST["addr"]);
-                }     
+                }
                 if (empty($_POST["category"])) {
                     $categoryErr = "缺少案件類別　|　";
-                } 
-                else {
+                } else {
                     $category = test_input($_POST["category"]);
-                }     
+                }
                 if (empty($_POST["date"])) {
                     $dateErr = "缺少日期　|　";
-                } 
-                else {
+                } else {
                     $date = test_input($_POST["date"]);
-                }     
+                }
                 if (empty($_POST["start_time"])) {
                     $start_timeErr = "缺少起始時段　|　";
-                } 
-                else {
+                } else {
                     $start_time = test_input($_POST["start_time"]);
-                }     
+                }
                 if (empty($_POST["end_time"])) {
                     $end_timeErr = "缺少結束時段　|　";
-                } 
-                else {
+                } else {
                     $end_time = test_input($_POST["end_time"]);
-                }     
-                           
+                }
+                $lat = $lng = 0;
+                //經緯度
+                $address = urlencode($addr);
+                $url = "https://maps.googleapis.com/maps/api/geocode/json?address={$address}&key=AIzaSyApaj14PBOXclTYt8Bg3fIJnkiSiELkMZA&language=zh-TW";
+                $response_json = file_get_contents($url);
+                $response = json_decode($response_json, true);
+                if ($response['status'] == 'OK') {
+                    $lat = $response['results'][0]['geometry']['location']['lat'];
+                    $lng = $response['results'][0]['geometry']['location']['lng'];
+                } else {
+                    $geoErr = "地址輸入錯誤　|　";
+                }
             }
-            
+
             function test_input($data)
             {
                 $data = trim($data);
@@ -89,8 +97,11 @@
 
             <section id="form" class="main special">
                 <section>
-                    <h2>新增犯罪熱點</h2>
-                    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+                    <header class="major">
+                        <h2>新增犯罪熱點</h2>
+                    </header>
+
+                    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                         <div class="row gtr-uniform">
                             <div class="col-12 col-12-xsmall">
                                 <input type="text" name="addr" id="addr" placeholder="範例：臺北市大安區仁愛路3段1~30號" />
@@ -183,21 +194,19 @@
                             <blockquote>
 
 
-                            <?php
+                                <?php
 
-                                if ($_SERVER["REQUEST_METHOD"] == "POST")
-                                {
-                                    if (empty($_POST["addr"]) || empty($_POST["category"]) || empty($_POST["date"]) || empty($_POST["start_time"]) || empty($_POST["end_time"])){
-                                        echo "<b style=\"color:#ff0000\">發現錯誤：".$addrErr.$categoryErr.$dateErr.$start_timeErr.$end_timeErr."</b>";
-                                    }
-                                    else{
+                                if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                                    if ($response['status'] != 'OK' || $geo == "n" || empty($_POST["addr"]) || empty($_POST["category"]) || empty($_POST["date"]) || empty($_POST["start_time"]) || empty($_POST["end_time"])) {
+                                        echo "<b style=\"color:#ff0000\">發現錯誤：" . $addrErr . $categoryErr . $dateErr . $start_timeErr . $end_timeErr . $geoErr . "</b>";
+                                    } else {
 
 
-                                        $DB_NAME = "final"; 
-                                        $DB_USER = "user1"; 
-                                        $DB_PASS = "test123"; 
-                                        $DB_HOST = "localhost"; 
-                                        
+                                        $DB_NAME = "final";
+                                        $DB_USER = "user1";
+                                        $DB_PASS = "test123";
+                                        $DB_HOST = "localhost";
+
                                         // 連接 MySQL 資料庫伺服器
                                         $con = mysqli_connect($DB_HOST, $DB_USER, $DB_PASS);
                                         if (empty($con)) {
@@ -205,81 +214,71 @@
                                             die("連接失敗，原因: " . mysqli_connect_error());
                                             exit;
                                         }
-                                        
+
                                         // 選取資料庫
                                         if (!mysqli_select_db($con, $DB_NAME)) {
                                             die("選取資料庫失敗！");
                                         } else {
                                             echo "連接 " . $DB_NAME . " 資料庫成功！<br>";
                                         }
-                                        
 
-                                        $sql = "SELECT * FROM ".$category;
+                                        // 獲得資料筆數
+
+                                        $sql = "select MAX(code) as max from " . $category . ";";
                                         $result = mysqli_query($con, $sql);
                                         $num = 0;
-                                        // 獲得資料筆數
-                                        if ($result) {
-                                            $num = mysqli_num_rows($result);
-                                            $num = $num + 1;
+                                        if (mysqli_num_rows($result) > 0) {
+                                            while ($row = mysqli_fetch_assoc($result)) {
+                                                $num = $row["max"];
+                                            }
                                         }
+                                        $num = $num + 1;
 
                                         $category_txt = "";
 
-                                        if($category=="house_steal"){
+                                        if ($category == "house_steal") {
                                             $category_txt = "住宅竊盜";
-                                        }elseif($category=="car_steal"){
+                                        } elseif ($category == "car_steal") {
                                             $category_txt = "汽車竊盜";
-                                        }elseif($category=="bike_steal"){
+                                        } elseif ($category == "bike_steal") {
                                             $category_txt = "自行車竊盜";
-                                        }elseif($category=="motorcycle_steal"){
+                                        } elseif ($category == "motorcycle_steal") {
                                             $category_txt = "機車竊盜";
-                                        }elseif($category=="random_snatch"){
+                                        } elseif ($category == "random_snatch") {
                                             $category_txt = "搶奪";
-                                        }elseif($category=="random_rob"){
+                                        } elseif ($category == "random_rob") {
                                             $category_txt = "強盜";
                                         }
-            
-                                        $sql = "INSERT INTO ".$category." (code, category, date, time_start, time_end, location)
-                                        VALUES ('".$num."', '".$category_txt."', '".$date."', '".$start_time."', '".$end_time."', '".$addr."')";
-                                         
-                                         if (mysqli_query($con, $sql)) {
-                                            echo "插入成功";
-                                        } else {
-                                            echo "Error: " . $sql . "<br>" . mysqli_error($con);
-                                        }
-                                         
-                                        mysqli_close($con);
-                                        
-                                    }
-                                }
-
-                            ?>
+                                        $sql = "INSERT INTO " . $category . " (code, category, date, time_start, time_end, location,lat,lng) 
+                                        VALUES ('" . $num . "', '" . $category_txt . "', '" . $date . "', '" . $start_time . "', '" . $end_time . "', '" . $addr . "', '" . $lat . "', '" . $lng . "')";
+                                ?>
                             </blockquote>
                         </div>
                     </form>
+            <?php
+                                        if (mysqli_query($con, $sql)) {
+                                            echo "插入成功";
+                                            echo "<a href='./menu.php' class='button primary fit'>回到目錄</a>";
+                                        } else {
+                                            echo "Error: " . $sql . "<br>" . mysqli_error($con);
+                                        }
+
+                                        mysqli_close($con);
+                                    }
+                                }
+
+            ?>
+
                 </section>
             </section>
 
-            
+
 
 
         </div>
 
         <!-- Footer -->
-        <footer id="footer">
-            <section>
-                <h2>參考資料</h2>
-                <p>https://www.flaticon.com/<br>
-                https://html5up.net/
-                </p>
-            </section>
-            <section>
-                <h2>相關資訊</h2>
-                <ul class="icons">
-                    <li><a target="_blank" href="https://github.com/psychicalcoder/DBMS-2021-Project" class="icon brands fa-github alt"><span class="label">GitHub</span></a></li>
-                </ul>
-            </section>
-        </footer>
+        <?php include("./footer.php"); ?>
 
     </div>
 
